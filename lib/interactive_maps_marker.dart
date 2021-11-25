@@ -33,6 +33,7 @@ class InteractiveMapsMarker extends StatefulWidget {
   final Alignment contentAlignment;
 
   InteractiveMapsMarker({
+    Key? key,
     required this.items,
     this.itemBuilder,
     this.center = const LatLng(0.0, 0.0),
@@ -41,20 +42,20 @@ class InteractiveMapsMarker extends StatefulWidget {
     this.zoom = 12.0,
     this.itemPadding = const EdgeInsets.only(bottom: 80.0),
     this.contentAlignment = Alignment.bottomCenter,
-  });
+  }) : super(key: key);
 
   @override
-  _InteractiveMapsMarkerState createState() => _InteractiveMapsMarkerState();
+  InteractiveMapsMarkerState createState() => InteractiveMapsMarkerState();
 }
 
-class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
+class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController? mapController;
   PageController pageController = PageController(viewportFraction: 0.9);
 
   Set<Marker>? markers;
   int currentIndex = 0;
-  ValueNotifier selectedMarker = ValueNotifier<int?>(null);
+  ValueNotifier selectedMarker = ValueNotifier<int>(-1);
 
   Uint8List? markerIcon;
   Uint8List? markerIconSelected;
@@ -166,14 +167,16 @@ class _InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   }
 
   Future<void> rebuildMarkers(int index) async {
-    int current = widget.items[index].id;
+    int current = widget.items.length > 0 ? widget.items[index].id : -1;
 
-    if (markerIcon == null)
+    if (markerIcon == null) {
       markerIcon = await getBytesFromAsset(
           'packages/interactive_maps_marker/assets/marker.png', 100);
-    if (markerIconSelected == null)
+    }
+    if (markerIconSelected == null) {
       markerIconSelected = await getBytesFromAsset(
           'packages/interactive_maps_marker/assets/marker_selected.png', 100);
+    }
 
     Set<Marker> _markers = Set<Marker>();
 
