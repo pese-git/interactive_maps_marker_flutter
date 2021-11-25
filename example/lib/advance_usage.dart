@@ -25,10 +25,18 @@ class StoreItem implements MarkerItem {
   @override
   double longitude;
 
-  String title;
-  String subTitle;
-  String image;
-  String details;
+  final String title;
+  final String subTitle;
+  final String image;
+  final String details;
 
-  StoreItem({this.id, this.latitude, this.longitude, this.title, this.subTitle, this.details});
+  StoreItem(
+    this.image, {
+    required this.id,
+    required this.latitude,
+    required this.longitude,
+    required this.title,
+    required this.subTitle,
+    required this.details,
+  });
 }

@@ -5,7 +5,7 @@ maintainer: Atiq Samtia (@AtiqSamtia)
 homepage: https://github.com/atiqsamtia/interactive_maps_marker_flutter
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:

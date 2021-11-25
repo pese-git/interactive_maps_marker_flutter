@@ -9,7 +9,7 @@ class StatefulExample extends StatefulWidget {
 }
 
 class _StatefulExampleState extends State<StatefulExample> {
-  List<MarkerItem> markers = List();
+  List<MarkerItem> markers = [];
 
   @override
   void initState() {
@@ -17,10 +17,14 @@ class _StatefulExampleState extends State<StatefulExample> {
 //    Fake delay for simulating a network request
     Future.delayed(Duration(seconds: 2)).then((value) {
       setState(() {
-        markers.add(MarkerItem(id: 1, latitude: 31.4673274, longitude: 74.2637687));
-        markers.add(MarkerItem(id: 2, latitude: 31.4718461, longitude: 74.3531591));
-        markers.add(MarkerItem(id: 3, latitude: 31.5325107, longitude: 74.3610325));
-        markers.add(MarkerItem(id: 4, latitude: 31.4668809, longitude: 74.31354));
+        markers.add(
+            MarkerItem(id: 1, latitude: 31.4673274, longitude: 74.2637687));
+        markers.add(
+            MarkerItem(id: 2, latitude: 31.4718461, longitude: 74.3531591));
+        markers.add(
+            MarkerItem(id: 3, latitude: 31.5325107, longitude: 74.3610325));
+        markers
+            .add(MarkerItem(id: 4, latitude: 31.4668809, longitude: 74.31354));
       });
     });
   }
