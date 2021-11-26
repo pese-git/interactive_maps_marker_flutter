@@ -32,6 +32,10 @@ class InteractiveMapsMarker extends StatefulWidget {
   final EdgeInsetsGeometry itemPadding;
   final Alignment contentAlignment;
 
+  final bool zoomControlsEnabled;
+  final bool myLocationEnabled;
+  final bool myLocationButtonEnabled;
+
   InteractiveMapsMarker({
     Key? key,
     required this.items,
@@ -42,6 +46,9 @@ class InteractiveMapsMarker extends StatefulWidget {
     this.zoom = 12.0,
     this.itemPadding = const EdgeInsets.only(bottom: 80.0),
     this.contentAlignment = Alignment.bottomCenter,
+    this.zoomControlsEnabled = true,
+    this.myLocationEnabled = false,
+    this.myLocationButtonEnabled = true,
   }) : super(key: key);
 
   @override
@@ -85,6 +92,16 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
         return Stack(
           children: <Widget>[
             _buildMap(),
+            Visibility(
+              visible: widget.zoomControlsEnabled,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: _buildZoomControls(context),
+                ),
+              ),
+            ),
             Align(
               alignment: widget.contentAlignment,
               child: Padding(
@@ -113,9 +130,9 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
         builder: (context, value, child) {
           return GoogleMap(
             zoomControlsEnabled: false,
+            myLocationEnabled: widget.myLocationEnabled,
+            myLocationButtonEnabled: widget.myLocationButtonEnabled,
             markers: value == null ? {} : markers ?? {},
-            myLocationEnabled: true,
-            myLocationButtonEnabled: false,
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: widget.center,
@@ -123,6 +140,53 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildZoomControls(BuildContext context) {
+    return Container(
+      child: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircleAvatar(
+              backgroundColor:
+                  Theme.of(context).buttonTheme.colorScheme!.background,
+              child: IconButton(
+                onPressed: () async {
+                  var currentZoomLevel = await mapController!.getZoomLevel();
+                  currentZoomLevel = currentZoomLevel + 1;
+                  mapController!
+                      .animateCamera(CameraUpdate.zoomTo(currentZoomLevel));
+                },
+                icon: Icon(
+                  Icons.add,
+                  color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            CircleAvatar(
+              backgroundColor:
+                  Theme.of(context).buttonTheme.colorScheme!.background,
+              child: IconButton(
+                onPressed: () async {
+                  var currentZoomLevel = await mapController!.getZoomLevel();
+                  currentZoomLevel = currentZoomLevel - 1;
+                  mapController!
+                      .animateCamera(CameraUpdate.zoomTo(currentZoomLevel));
+                },
+                icon: Icon(
+                  Icons.remove,
+                  color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
