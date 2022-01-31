@@ -152,7 +152,7 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
           children: [
             CircleAvatar(
               backgroundColor:
-                  Theme.of(context).buttonTheme.colorScheme!.background,
+                  Theme.of(context).floatingActionButtonTheme.backgroundColor,
               child: IconButton(
                 onPressed: () async {
                   var currentZoomLevel = await mapController!.getZoomLevel();
@@ -162,7 +162,9 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                 },
                 icon: Icon(
                   Icons.add,
-                  color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
+                  color: Theme.of(context)
+                      .floatingActionButtonTheme
+                      .foregroundColor,
                 ),
               ),
             ),
@@ -171,7 +173,7 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
             ),
             CircleAvatar(
               backgroundColor:
-                  Theme.of(context).buttonTheme.colorScheme!.background,
+                  Theme.of(context).floatingActionButtonTheme.backgroundColor,
               child: IconButton(
                 onPressed: () async {
                   var currentZoomLevel = await mapController!.getZoomLevel();
@@ -181,7 +183,9 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
                 },
                 icon: Icon(
                   Icons.remove,
-                  color: Theme.of(context).buttonTheme.colorScheme!.onPrimary,
+                  color: Theme.of(context)
+                      .floatingActionButtonTheme
+                      .foregroundColor,
                 ),
               ),
             ),
