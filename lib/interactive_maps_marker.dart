@@ -37,6 +37,9 @@ class InteractiveMapsMarker extends StatefulWidget {
   final bool myLocationButtonEnabled;
   final Function(GoogleMapController controller)? onMapCreated;
 
+  Uint8List? markerIcon;
+  Uint8List? markerIconSelected;
+
   InteractiveMapsMarker({
     Key? key,
     required this.items,
@@ -51,6 +54,8 @@ class InteractiveMapsMarker extends StatefulWidget {
     this.myLocationEnabled = false,
     this.myLocationButtonEnabled = true,
     this.onMapCreated,
+    this.markerIcon,
+    this.markerIconSelected,
   }) : super(key: key);
 
   @override
@@ -155,7 +160,7 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
           children: [
             CircleAvatar(
               backgroundColor:
-                  Theme.of(context).floatingActionButtonTheme.backgroundColor,
+              Theme.of(context).floatingActionButtonTheme.backgroundColor,
               child: IconButton(
                 onPressed: () async {
                   var currentZoomLevel = await mapController!.getZoomLevel();
@@ -176,7 +181,7 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
             ),
             CircleAvatar(
               backgroundColor:
-                  Theme.of(context).floatingActionButtonTheme.backgroundColor,
+              Theme.of(context).floatingActionButtonTheme.backgroundColor,
               child: IconButton(
                 onPressed: () async {
                   var currentZoomLevel = await mapController!.getZoomLevel();
@@ -241,11 +246,11 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
     int current = widget.items.length > 0 ? widget.items[index].id : -1;
 
     if (markerIcon == null) {
-      markerIcon = await getBytesFromAsset(
+      markerIcon = widget.markerIcon ?? await getBytesFromAsset(
           'packages/interactive_maps_marker/assets/marker.png', 100);
     }
     if (markerIconSelected == null) {
-      markerIconSelected = await getBytesFromAsset(
+      markerIconSelected = widget.markerIconSelected ?? await getBytesFromAsset(
           'packages/interactive_maps_marker/assets/marker_selected.png', 100);
     }
 
@@ -258,7 +263,7 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
           position: LatLng(item.latitude, item.longitude),
           onTap: () {
             int tappedIndex =
-                widget.items.indexWhere((element) => element.id == item.id);
+            widget.items.indexWhere((element) => element.id == item.id);
             pageController.animateToPage(
               tappedIndex,
               duration: Duration(milliseconds: 300),
