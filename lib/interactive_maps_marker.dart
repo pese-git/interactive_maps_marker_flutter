@@ -35,6 +35,7 @@ class InteractiveMapsMarker extends StatefulWidget {
   final bool zoomControlsEnabled;
   final bool myLocationEnabled;
   final bool myLocationButtonEnabled;
+  final Function(GoogleMapController controller)? onMapCreated;
 
   InteractiveMapsMarker({
     Key? key,
@@ -49,6 +50,7 @@ class InteractiveMapsMarker extends StatefulWidget {
     this.zoomControlsEnabled = true,
     this.myLocationEnabled = false,
     this.myLocationButtonEnabled = true,
+    this.onMapCreated,
   }) : super(key: key);
 
   @override
@@ -82,6 +84,7 @@ class InteractiveMapsMarkerState extends State<InteractiveMapsMarker> {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     _controller.complete(controller);
+    widget.onMapCreated?.call(controller);
   }
 
   @override
